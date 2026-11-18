@@ -126,7 +126,8 @@ A future MSU patch is separate from normal P1.
 - [x] Fresh paired emulator route through Palace 5 completion, with gameplay/RNG/OAM/audio comparisons and native save/reset.
 - [x] Fresh paired late-game prerequisite routes: seventh/eighth magic containers, Spell/Magic Key and Thunder acquired and saved/reset.
 - [x] Fresh paired Palace 6 entry and Magic Key door opening.
-- [ ] Palace 6 completion. Latest audited checkpoint is Rebonack/Cross-route exploration, not a completed Cross pickup or palace.
+- [x] Cross acquired in a fresh paired controller-only replay and retained after native save/reset. Independently reviewed 2026-11-18 at 19:15 UTC: 41,546 frames, matching selected gameplay/RNG/OAM/audio, with no save-state restores or gameplay RAM writes.
+- [ ] Palace 6 completion. Cross acquisition is verified; the palace boss, crystal and full palace completion remain unverified.
 - [ ] Great Palace, final bosses and natural ending/credits.
 - [ ] Full current-P1 requalification of all 43 feature rows.
 - [ ] Verify native regional music against intended melodies.
