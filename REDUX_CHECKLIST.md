@@ -127,7 +127,7 @@ A future MSU patch is separate from normal P1.
 - [x] Fresh paired late-game prerequisite routes: seventh/eighth magic containers, Spell/Magic Key and Thunder acquired and saved/reset.
 - [x] Fresh paired Palace 6 entry and Magic Key door opening.
 - [x] Cross acquired in a fresh paired controller-only replay and retained after native save/reset. Independently reviewed 2026-11-18 at 19:15 UTC: 41,546 frames, matching selected gameplay/RNG/OAM/audio, with no save-state restores or gameplay RAM writes.
-- [ ] Palace 6 completion. Cross acquisition is verified; the palace boss, crystal and full palace completion remain unverified.
+- [x] Palace 6 completion, independently reviewed: fresh paired controller-only replay over 146,827 frames verified native Barba defeat, final crystal placement, overworld return, manual save and core reset. Selected gameplay/OAM/audio matched the prior normal build; saved-state differences were the expected palette-cache bytes. This does not qualify Great Palace, the ending or hardware.
 - [ ] Great Palace, final bosses and natural ending/credits.
 - [ ] Full current-P1 requalification of all 43 feature rows.
 - [ ] Verify native regional music against intended melodies.
@@ -145,6 +145,6 @@ Retained audit records used:
 - `CHECKLIST_DEV08.md`: historical 43 core / 35 optional checklist and targeted-test limitations.
 - `palette_consistency/REPORT.txt` and `INDEPENDENT_REVIEW.txt`: bounded P1 palette audit.
 - `redux_enemy_byte_audit.json`: current 47-block enemy source-parity audit.
-- `normal_p1_validation/REPORT.txt`, `REPORT_PALACE5_COMPLETE.txt` and subsequent fresh-route reports: regression/progression evidence.
+- `normal_p1_validation/REPORT.txt`, `REPORT_PALACE5_COMPLETE.txt`, `REPORT_PALACE6_FRESH_PAIRED.txt` and subsequent fresh-route reports: regression/progression evidence.
 
 These record names identify retained test evidence; they are **not links to files published in this repository**. Only documentation is added here. No ROMs, proprietary assets, dialogue dumps, screenshots, SRAM, save states, memory dumps or copyrighted upstream code accompany this checklist.
