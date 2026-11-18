@@ -1,6 +1,6 @@
 # Redux implementation and validation checklist
 
-Updated 2026-11-18. Scope: **normal SNES P1 TEST**, not the personal fun build, R7 renderer experiment, or future MSU patch.
+Updated 2026-11-18. Scope: **normal SNES P1 TEST**, excluding the R7 renderer experiment and future MSU patch.
 
 ## Read this first
 
@@ -117,7 +117,7 @@ The historical-test column preserves the old checklist without pretending it cer
 - [ ] 34. Undocumented secret option.
 - [ ] 35. Red tunic starting at Life level seven.
 
-The personal fun dialogue and start-with-thrust options are separate custom-build additions, not included by normal P1. A future MSU patch is likewise separate.
+A future MSU patch is separate from normal P1.
 
 ## Current normal-P1 release validation
 
