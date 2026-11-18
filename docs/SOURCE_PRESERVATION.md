@@ -18,6 +18,10 @@ Required base: the already-modified `Zelda2_Redux_Main_Alignment_NPC_TEST.sfc`, 
 
 Verified locally: the portable builder reproduced the normal P1 target byte-for-byte, SHA-256 `6397aca12cf7ba16fe6c173e977082962b84ae7e217124cf21c057655a115f72`. Regenerating the BPS reproduced the existing 218-byte patch byte-for-byte, SHA-256 `21ad15984e9f47ee644fa2e82e552b2a0c3136220eb9f61b4f37602f4a38ba72`.
 
+## Historical audit utilities
+
+Three byte-preserved, payload-free project utilities are documented in [the Dev08 archive](../source/archive/dev08/README.md): an all-four-actions BPS applier, port-mapping counts, and BPS source/literal ancestry inspection. Required inputs, original hashes, focused test results and historical safety limitations are explicit. No archive, game inputs or generated audit outputs are uploaded, and active tooling is unchanged.
+
 ## Audit and exclusions
 
 The published builder contains control flow, numeric patch locations, color-index choices and hashes, not bundled ROM bytes, graphics, music, dialogue or copied disassembly. The existing generic BPS tools contain no game data. The curated text files were inspected for credentials, private machine paths and embedded game payloads.
