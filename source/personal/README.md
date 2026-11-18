@@ -1,6 +1,6 @@
-# Optional personal P1 source
+# Optional starting-thrust P1 source
 
-This separate builder adds starting Upthrust and Downthrust to new save files, plus the owner's custom trainer acknowledgment. Existing SRAM is not modified; existing saves retain their learned flags. It does not add the historical movie/fun-dialogue pack or alter normal P1.
+This separate builder adds starting Upthrust and Downthrust to new save files, plus the owner's custom trainer acknowledgment. Existing SRAM is not modified; existing saves retain their learned flags. It does not alter normal P1.
 
 Run with Python 3 (without `-O`, because input guards use assertions):
 
