@@ -28,7 +28,6 @@ Not uploaded:
 - Historical upstream source trees and checkpoint archives, even archives labeled ROM-free: these require separate provenance and payload review.
 - Historical native-spacing and renderer experiments containing copied original instruction sequences or uncertain source provenance.
 - Experimental R7 timing/rendering changes, and the user-excluded upstream lag-reduction change.
-- Historical fun-dialogue scripts containing quoted third-party dialogue. Any separately reviewed personal build source must document its own scope and base.
 
 ## Remaining recovery gaps
 
