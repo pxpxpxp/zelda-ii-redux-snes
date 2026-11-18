@@ -2,6 +2,10 @@
 
 Private preservation of original patch tooling and a **palette-only P1 TEST delta**. This is **not a complete Redux source release**, and the included patch is **not a full Redux conversion from a clean game**.
 
+## Redux feature checklist
+
+See [the 43-item core and 35-item optional Redux checklist](REDUX_CHECKLIST.md) for what was added, historical versus current testing, intentional exclusions, and remaining release checks. Historical 41/43 targeted-test coverage is **not** a current-P1 completion percentage.
+
 ## Prerelease: P1 palette-only test
 
 Apply `patches/Zelda2_Redux_Main_to_P1_Palette_ONLY_TEST.bps` only to the already-modified `Zelda2_Redux_Main_Alignment_NPC_TEST.sfc` build with the exact hash below. Obtain your own lawful base; none is included. A clean NES ROM or unrelated SNES port is **not** the required input.
