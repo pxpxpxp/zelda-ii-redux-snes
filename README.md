@@ -14,7 +14,7 @@ Apply `patches/Zelda2_Redux_Main_to_P1_Palette_ONLY_TEST.bps` only to the alread
 - Output SHA-256: `6397aca12cf7ba16fe6c173e977082962b84ae7e217124cf21c057655a115f72`
 - Patch SHA-256: `21ad15984e9f47ee644fa2e82e552b2a0c3136220eb9f61b4f37602f4a38ba72`
 
-P1 changes 76 Link static-palette bytes at 38 sites, plus four checksum bytes. No executable, timing, renderer, NPC, scenery, or flash-control changes. Upstream lag reduction is deliberately **not added**. The personal fun dialogue/start-with-thrust options are not added by this patch.
+P1 changes 76 Link static-palette bytes at 38 sites, plus four checksum bytes. No executable, timing, renderer, NPC, scenery, or flash-control changes. Upstream lag reduction is deliberately **not added**.
 
 ## Validation and limits
 
