@@ -18,7 +18,18 @@ P1 changes 76 Link static-palette bytes at 38 sites, plus four checksum bytes. N
 
 ## Validation and limits
 
-The patch was applied back to its exact required base and reproduced the target SHA-256. Source, target, and patch CRCs were verified. Paired emulator testing through Palace 5, including Gooma, key/gate/crystal, native Save and reset, found identical gameplay/RNG/OAM/audio state across 54,180 frames; captured image differences were restricted to the intended Link/avatar palette. This is not full-game or MiSTer/PVM hardware qualification. Palace 6/endgame and hardware checks remain outstanding. R7 timing/rendering experiments are excluded.
+### Status: 2026-11-19
+
+**Normal P1's tested emulator route reaches the ending. This is a validation update, not a new binary or patch.** The input, output and patch hashes above are unchanged; upstream lag reduction remains excluded.
+
+- Patch roundtrip and source/target/patch CRC checks passed.
+- Palace 6: independently reviewed fresh paired replay over 146,827 frames covered Barba, the final crystal, overworld return and native save/reset.
+- Endgame: independently audited fresh paired replay from the previously earned Palace 6 save covered Thunderbird, Dark Link, rescue, credits and the final replay prompt over 101,614 frames. Selected gameplay/RNG/enemy/projectile state, OAM and audio matched the prior normal build. Of 187 sampled image pairs, 140 matched exactly and 47 differed only by expected palette substitutions.
+- Separate post-ending check: native Start at the replay prompt saved a restarted campaign. An independently repeated clean-process P1 load returned to the castle with Attack 4 / Magic 5 / Life 6 retained and crystals/items reset. This is not a resume inside Great Palace.
+
+**Still unverified:** MiSTer/PVM hardware and genuine power-cycle persistence, a single uninterrupted new-game-through-ending run, the full save-compatibility matrix, native regional music fidelity, and complete current-P1 requalification of every Redux feature. The tested route includes native deaths/Continue; selected-memory hashes and sampled images are not exhaustive correctness checks. R7 timing/rendering experiments remain excluded.
+
+See the [detailed checklist](REDUX_CHECKLIST.md#current-normal-p1-release-validation) for historical versus current evidence and remaining work.
 
 ## Source preservation scope
 
