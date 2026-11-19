@@ -130,7 +130,9 @@ A future MSU patch is separate from normal P1.
 - [x] Palace 6 completion, independently reviewed: fresh paired controller-only replay over 146,827 frames verified native Barba defeat, final crystal placement, overworld return, manual save and core reset. Selected gameplay/OAM/audio matched the prior normal build; saved-state differences were the expected palette-cache bytes. This does not qualify Great Palace, the ending or hardware.
 - [x] Great Palace interior entry and native death/Continue, independently verified in fresh paired emulator processes using the earned Palace 6 SRAM: 33,456 frames with matching selected gameplay/OAM/audio. Interior entry reached world 5 room 2; Continue restarted at the Great Palace entrance with six crystals retained. Screenshot differences were limited to expected palette substitutions.
 - [x] Bounded Thunderbird approach/combat milestone, independently reviewed: fresh paired controller-only route from earned Palace 6 SRAM ran 78,629 frames, reached Thunderbird, activated vulnerability with native Thunder, and registered damage from 190 to 166 HP. Selected gameplay/RNG/enemy/projectile state, OAM and audio matched; all 172 screenshot pairs were identical or differed only by expected palette substitutions. The boss remained alive. This is not a victory or full-game validation.
-- [ ] Great Palace completion, Thunderbird victory, Dark Link and natural ending/credits. Entry, Continue and damage registration do not certify these remaining stages.
+- [x] Tested Great Palace endgame route through Thunderbird victory, Dark Link, rescue, credits and final replay prompt, independently audited: 101,614-frame fresh paired controller-only replay from the previously earned Palace 6 SRAM. Selected gameplay/RNG/enemy/projectile state, OAM and audio matched. Of 187 sampled image pairs, 140 were identical and 47 differed only by expected palette substitutions. Native deaths/Continue were part of the route; this is not an uninterrupted new-game-through-ending run or exhaustive upstream-correctness certification.
+- [ ] Post-ending clean reload/save-load persistence. Ending SRAM was captured and compared, not freshly reloaded in this test.
+- [ ] Single uninterrupted new-game-through-ending validation.
 - [ ] Full current-P1 requalification of all 43 feature rows.
 - [ ] Verify native regional music against intended melodies.
 - [ ] Full save compatibility matrix and genuine hardware power-cycle checks.
@@ -147,6 +149,6 @@ Retained audit records used:
 - `CHECKLIST_DEV08.md`: historical 43 core / 35 optional checklist and targeted-test limitations.
 - `palette_consistency/REPORT.txt` and `INDEPENDENT_REVIEW.txt`: bounded P1 palette audit.
 - `redux_enemy_byte_audit.json`: current 47-block enemy source-parity audit.
-- `normal_p1_validation/REPORT.txt`, `REPORT_PALACE5_COMPLETE.txt`, `REPORT_PALACE6_FRESH_PAIRED.txt`, `REPORT_GREAT_PALACE_ENTRY_FRESH_PAIRED.txt`, `REPORT_THUNDERBIRD_FRESH_PAIRED.txt`, `REVIEW_THUNDERBIRD_FRESH_PAIRED.txt` and subsequent fresh-route reports: regression/progression evidence.
+- `normal_p1_validation/REPORT.txt`, `REPORT_PALACE5_COMPLETE.txt`, `REPORT_PALACE6_FRESH_PAIRED.txt`, `REPORT_GREAT_PALACE_ENTRY_FRESH_PAIRED.txt`, `REPORT_THUNDERBIRD_FRESH_PAIRED.txt`, `REVIEW_THUNDERBIRD_FRESH_PAIRED.txt`, `REPORT_ENDGAME_FRESH_PAIRED.txt`, `REVIEW_ENDGAME_FRESH_PAIRED.txt` and subsequent fresh-route reports: regression/progression evidence.
 
 These record names identify retained test evidence; they are **not links to files published in this repository**. Only documentation is added here. No ROMs, proprietary assets, dialogue dumps, screenshots, SRAM, save states, memory dumps or copyrighted upstream code accompany this checklist.
