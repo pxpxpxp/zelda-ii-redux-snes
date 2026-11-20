@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d0b15">
+  <title>Zelda II Redux · Patch Builder</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="mast">
+    <div class="wrap bar">
+      <span><b class="brand" aria-hidden="true">◆</b> ZELDA II <i>/</i> SNES REDUX</span>
+      <nav aria-label="Patch builder"><a href="#game-file">ROM</a><a href="#options">Options</a><a href="#download">Your build</a></nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="hero" id="game-file" aria-labelledby="page-title">
+      <div class="title-frame"><img src="assets/redux-title.png" width="256" height="224" alt="Zelda II Redux title screen, with a sword on a moonlit cliff"></div>
+      <div class="hero-copy"><div class="eyebrow">The Adventure of Link · SNES</div>
+        <h1 id="page-title">Redux Patch Builder</h1>
+        <p>Choose your unpatched Revision G ROM to build your own version of Zelda II. Your game file stays on your device.</p>
+        <label class="drop" id="drop">
+            <input id="file" type="file" accept=".sfc,.smc" aria-label="Choose your unpatched Zelda II SNES ROM">
+            <span class="file-label"><b>Unpatched SNES ROM</b><small>Drop an .sfc or .smc file here</small></span>
+            <span class="choose">Choose file</span>
+          </label>
+          <div class="file-status" id="fileStatus" aria-live="polite">No file selected</div>
+          <details class="rom-details"><summary>Which ROM works?</summary>
+            <p>Use Infidelity’s Zelda II SNES port, Revision G. The internal title is <strong>ZELDA_II_SNES_REV-G!!</strong>. The ROM contains 4,194,304 bytes of game data with CRC32 <code>E7339DA0</code>. A 512-byte copier header is also supported.</p>
+          </details></div></section>
+    <div class="layout"><section class="panel options" id="options" aria-labelledby="options-title">
+          <div class="step"><div>
+            <h2 id="options-title">Gameplay &amp; options</h2>
+            <p>Start with a preset, then select any extras you want. Your build summary shows which settings work together.</p>
+          </div></div>
+          <div class="preset">
+            <label for="preset">Preset</label>
+            <select id="preset">
+              <option value="suggested">Suggested Redux (recommended)</option>
+              <option value="">Custom selection</option>
+              <option value="Shared-Options">Classic settings · 8 options</option>
+              <option value="Shared-Gameplay">Gameplay preset · 5 options</option>
+            </select>
+          </div>
+          <details class="defaults"><summary>Recommended settings</summary><p>Switch off a setting to restore its original behavior.</p><div id="suggested-switches"></div>
+          <button type="button" class="reset-suggested" id="resetSuggested">Reset to Suggested Redux</button>
+          <details><summary>Built-in Redux changes</summary>
+            <p>These features are included in every Redux build.</p><ul id="suggested-fixed"></ul>
+          </details>
+        </details>
+          <div class="tabs" id="tabs" role="group" aria-label="Filter options"></div>
+          <div id="cards"></div>
+          <details id="unavailablePanel"><summary>Unavailable options</summary><div id="unavailable"></div></details>
+        </section><aside><section class="panel summary" id="download" aria-labelledby="download-title">
+          <div class="step"><div><h2 id="download-title">Your build</h2></div></div>
+          <div id="selection"></div>
+          <blockquote id="trainerQuote" hidden><span>Sword trainers</span>“It looks like you’ve already learned these techniques.”</blockquote><p class="notice" id="variantStatus" aria-live="polite">Choose your unpatched Zelda II SNES ROM to continue.</p>
+          <button id="build" type="button" class="build" disabled>Download Suggested Redux .sfc</button>
+          <div class="file-status" id="buildStatus" aria-live="polite"></div>
+          <p class="aside-footer">Downloads a new .sfc for your emulator or MiSTer. Custom builds have been checked in software. Hardware testing is pending.</p>
+        </section></aside></div>
+  </main>
+  <script src="catalog.js"></script>
+  <script src="suggested.js"></script>
+  <script src="patcher.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
