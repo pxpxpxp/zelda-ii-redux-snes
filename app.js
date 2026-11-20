@@ -38,7 +38,7 @@ const unavailable=[
  [27,'Visual','Reworked title screen','Alternate title composition. Requires locally supplied title assets and SNES conversion.'],
  [32,'Visual','Original NES graphics','Original NES look. Requires locally supplied assets and SNES conversion.'],
  [33,'Progression','Old magic-container save repair','A separate repair for older save files affected by the magic-container bug.'],
- [34,'Gameplay','Secret','An optional room change from the NES version. Its behavior on SNES is unverified.']
+ [34,'Gameplay','Secret','An optional room change from the NES version. Not available in the SNES builder.']
 ];
 // Independently audited by comparing verified single-patch writes and gameplay intent.
 const groups=[[3,25],[12,13,22],[17,28,30],[8,28],[10,31]];
@@ -66,19 +66,6 @@ function blockedIn(id, ids){
  const clashes=[...ids].filter(other=>groups.some(group=>group.includes(id)&&group.includes(other)));
  return clashes.length ? 'Conflicts with '+clashes.map(other=>info[other][1]).join(' and ')+'.' : '';
 }
-function testedAddition(id, ids){
- if(ids.has(id)) return '';
- const next=new Set(ids);next.add(id);
- if(variantFor(next)!==undefined) return '';
- const pending=[...next].filter(v=>v!==STARTING_THRUSTS_ID);
- return testedSelections.some(build=>pending.every(v=>build.includes(v)))
-  ? 'Works in a larger tested set; add the other settings or choose a preset.'
-  : 'No tested download with your current choices.';
-}
-function markUntested(row,body,reason){
- if(!reason) return;
- const note=document.createElement('small');note.className='untested-note';note.textContent=reason;body.append(note);
-}
 function renderTestedCompletion(){
  const help=$('testedCompletion');help.replaceChildren();help.hidden=true;
  if(current()!==undefined || conflicts()) return;
@@ -86,7 +73,7 @@ function renderTestedCompletion(){
  const build=testedSelections.filter(v=>ids.every(id=>v.includes(id))).sort((x,y)=>x.length-y.length)[0];
  if(!build) return;
  const additions=build.filter(id=>!selected.has(id));
- const note=document.createElement('p');note.textContent='A tested build also needs: '+additions.map(id=>info[id][1]).join(', ')+'.';
+ const note=document.createElement('p');note.textContent='To build with your choices, also add: '+additions.map(id=>info[id][1]).join(', ')+'.';
  const button=document.createElement('button');button.type='button';button.textContent='Add these settings';button.className='reset-suggested';
  button.addEventListener('click',()=>{for(const id of additions)selected.add(id);$('preset').value='';refresh();$('variantStatus').focus({preventScroll:true})});
  help.append(note,button);help.hidden=false;
@@ -117,7 +104,6 @@ function refreshSuggested(){
    body.append(title,desc);
    const block=box.checked?blockedIn(reverse,selected):'';
    markBlocked(row,box,body,'core-'+id,block);
-   if(box.checked&&!block) markUntested(row,body,testedAddition(reverse,selected));
    box.addEventListener('change',()=>{if(box.checked){for(const other of opposites)selected.delete(other)}else{if(blockedIn(reverse,selected)){refresh();return}selected.add(reverse)}$('preset').value=selected.size?'':'suggested';refresh();$('suggested-switches').querySelector('[data-core="'+id+'"]')?.focus({preventScroll:true})});
    row.append(box,body);active.append(row);
   } else {
@@ -153,7 +139,6 @@ function refresh(){
   title.textContent=name;desc.textContent=help;copy.append(title,desc);
   const block=blockedIn(+id,selected);
   markBlocked(label,input,copy,'option-'+id,block);
-  if(!block) markUntested(label,copy,testedAddition(+id,selected));
   label.append(input,copy);$('cards').append(label);
  }
  const secondary=$('unavailable');
@@ -172,8 +157,8 @@ function refresh(){
  renderTestedCompletion();
  if (variant === undefined) {
   $('variantStatus').textContent = conflicts() || ($('testedCompletion').hidden
-   ? 'There’s no tested download for this combination. Remove an option or choose a preset.'
-   : 'This selection can be completed as a tested build.');
+   ? 'Remove an option or choose a preset to enable the download.'
+   : 'Add the settings below to enable the download.');
  } else if (!reduxBase) {
   $('variantStatus').textContent = 'Choose your unpatched Zelda II SNES ROM to continue.';
  } else {

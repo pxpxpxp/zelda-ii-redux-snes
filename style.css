@@ -185,6 +185,5 @@ h2 { font-family:"Jacquard 12",Georgia,serif; font-size:2.5rem; }
 .card.is-blocked input, .redux-switch.is-blocked input { cursor: not-allowed; opacity: .55; }
 .card .blocked-note, .redux-switch .blocked-note { display: block; margin-top: .35rem; color: #d6c9aa; font-weight: 600; }
 
-.card .untested-note, .redux-switch .untested-note { display:block; margin-top:.35rem; color:#d9b970; }
 #testedCompletion { margin:0 0 1rem; color:#d9b970; font-size:.9rem; }
 #testedCompletion p { margin:.2rem 0 .6rem; }
