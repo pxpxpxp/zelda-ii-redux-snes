@@ -50,10 +50,30 @@ function conflicts(){
  for(const group of groups){const clash=group.filter(x=>selected.has(x));if(clash.length>1)return clash.map(x=>info[x][1]).join(' and ')+' can’t be used together.'}
  return '';
 }
-function current() {
- const variantKey = key([...selected].filter(id => id !== STARTING_THRUSTS_ID));
+function variantFor(ids) {
+ const variantKey = key([...ids].filter(id => id !== STARTING_THRUSTS_ID));
  if (!variantKey) return null; // Suggested Redux can also be paired with the thrusts.
  return bySelection.get(variantKey) || SUGGESTED_COMBINATIONS[variantKey];
+}
+function current(){return variantFor(selected)}
+// The tested catalog, including composed presets, is the source of truth.
+function blockedIn(id, ids){
+ if(ids.has(id)) return '';
+ const next=new Set(ids);next.add(id);
+ if(variantFor(next)!==undefined) return '';
+ const clashes=[...ids].filter(other=>groups.some(group=>group.includes(id)&&group.includes(other)));
+ if(clashes.length) return 'Blocked by '+clashes.map(other=>info[other][1]).join(' and ')+'.';
+ const removable=[...ids].filter(other=>other!==STARTING_THRUSTS_ID&&
+  variantFor(new Set([...next].filter(item=>item!==other)))!==undefined);
+ if(removable.length) return 'Remove '+removable.map(other=>info[other][1]).join(' or ')+' to select this.';
+ return 'Not available with this selection. Remove options or choose another preset.';
+}
+function markBlocked(row,input,body,id,reason){
+ if(!reason) return;
+ input.disabled=true;
+ row.classList.add('is-blocked');
+ const note=document.createElement('small');note.className='blocked-note';note.id='blocked-'+id;
+ note.textContent=reason;body.append(note);input.setAttribute('aria-describedby',note.id);
 }
 const defaultReversals=new Map([[12,17],[16,18],[18,15],[23,16]]);
 const revertLabels={12:'Uses the original Game Over restart instead.',16:'Uses the original magic costs instead.',18:'Uses the original item drop rates instead.',23:'Link Dolls grant a life for this run only.'};
@@ -71,8 +91,10 @@ function refreshSuggested(){
    const opposites=id===12?[17,28,30]:[reverse], alternate=opposites.find(o=>selected.has(o));
    row.className='redux-switch';box.type='checkbox';box.setAttribute('role','switch');box.checked=!alternate;box.dataset.core=String(id);
    title.textContent=name;desc.textContent=box.checked?'On by default.':alternate===reverse?revertLabels[id]:'Replaced by '+info[alternate][1]+'.';
-   box.addEventListener('change',()=>{if(box.checked){for(const other of opposites)selected.delete(other)}else selected.add(reverse);$('preset').value=selected.size?'':'suggested';refresh();$('suggested-switches').querySelector('[data-core="'+id+'"]')?.focus({preventScroll:true})});
-   body.append(title,desc);row.append(box,body);active.append(row);
+   body.append(title,desc);
+   markBlocked(row,box,body,'core-'+id,box.checked?blockedIn(reverse,selected).replace('to select this','to turn this off'):'');
+   box.addEventListener('change',()=>{if(box.checked){for(const other of opposites)selected.delete(other)}else{if(blockedIn(reverse,selected)){refresh();return}selected.add(reverse)}$('preset').value=selected.size?'':'suggested';refresh();$('suggested-switches').querySelector('[data-core="'+id+'"]')?.focus({preventScroll:true})});
+   row.append(box,body);active.append(row);
   } else {
    const row=document.createElement('li'), text=document.createElement('span'), tag=document.createElement('small');
    text.textContent=name;tag.textContent=state==='On'?'Included':state==='Partial'?'In some areas':'Modified';row.append(text,tag);fixed.append(row);
@@ -101,9 +123,11 @@ function refresh(){
   if([...defaultReversals.values()].includes(+id))continue;
   const label=document.createElement('label');label.className='card';
   const input=document.createElement('input');input.type='checkbox';input.value=id;input.checked=selected.has(+id);
-  input.addEventListener('change',()=>{if(input.checked)selected.add(+id);else selected.delete(+id);$('preset').value=selected.size?'':'suggested';refresh();$('cards').querySelector('input[value="'+id+'"]')?.focus({preventScroll:true})});
+  input.addEventListener('change',()=>{if(input.checked){if(blockedIn(+id,selected)){refresh();return}selected.add(+id)}else selected.delete(+id);$('preset').value=selected.size?'':'suggested';refresh();$('cards').querySelector('input[value="'+id+'"]')?.focus({preventScroll:true})});
   const copy=document.createElement('span'), title=document.createElement('strong'), desc=document.createElement('small');
-  title.textContent=name;desc.textContent=help;copy.append(title,desc); label.append(input,copy);$('cards').append(label);
+  title.textContent=name;desc.textContent=help;copy.append(title,desc);
+  markBlocked(label,input,copy,'option-'+id,blockedIn(+id,selected));
+  label.append(input,copy);$('cards').append(label);
  }
  const secondary=$('unavailable');
  secondary.replaceChildren();
@@ -119,7 +143,7 @@ function refresh(){
  else {const list=document.createElement('ul');for(const id of selected){const li=document.createElement('li'), name=document.createElement('span'), del=document.createElement('button');name.textContent=info[id][1];del.type='button';del.textContent='×';del.setAttribute('aria-label','Remove '+info[id][1]);del.addEventListener('click',()=>{selected.delete(id);$('preset').value=selected.size?'':'suggested';refresh();$('preset').focus({preventScroll:true})});li.append(name,del);list.append(li)}$('selection').append(list)}
  const variant=current();
  if (variant === undefined) {
-  $('variantStatus').textContent = conflicts() || 'This combination isn’t available. Choose a preset, a single option, or a supported variation.';
+  $('variantStatus').textContent = conflicts() || 'The remaining selections aren’t a supported build. Remove another option, restore the last one you removed, or choose a preset.';
  } else if (!reduxBase) {
   $('variantStatus').textContent = 'Choose your unpatched Zelda II SNES ROM to continue.';
  } else {

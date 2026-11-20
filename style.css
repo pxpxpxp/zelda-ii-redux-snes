@@ -178,3 +178,9 @@ h2 { font-family:"Jacquard 12",Georgia,serif; font-size:2.5rem; }
  html { scroll-padding-top:6rem; }
 }
 @media(max-width:550px) { #cards,#suggested-switches {grid-template-columns:1fr;} h2 {font-size:2.1rem;} .bar {font-size:.98rem;} }
+
+/* Options that the tested patch catalog cannot combine. */
+.card.is-blocked, .redux-switch.is-blocked { cursor: not-allowed; background: #161820; border-color: #41444e; }
+.card.is-blocked strong, .redux-switch.is-blocked strong { color: #b8bbc3; }
+.card.is-blocked input, .redux-switch.is-blocked input { cursor: not-allowed; opacity: .55; }
+.card .blocked-note, .redux-switch .blocked-note { display: block; margin-top: .35rem; color: #d6c9aa; font-weight: 600; }
