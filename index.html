@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d0b15">
   <title>Zelda II Redux · Patch Builder</title>
-  <link rel="stylesheet" href="style.css?v=b38ddd20">
+  <link rel="stylesheet" href="style.css?v=3340dc68">
 </head>
 <body>
   <header class="mast">
@@ -15,6 +15,26 @@
     </div>
   </header>
   <main class="wrap">
+    <section class="hero" aria-labelledby="page-title">
+      <div class="hero-copy">
+        <div class="eyebrow">The Adventure of Link · SNES</div>
+        <h1 id="page-title">Redux Patch Builder</h1>
+        <p>Build your own version of <cite>The Adventure of Link</cite> for the SNES with the improvements from the original NES <cite>Zelda II Redux</cite>. Keep the suggested settings or add extras like starting with both sword thrusts.</p>
+      </div>
+      <div class="title-frame"><img src="assets/redux-title.png" width="256" height="224" alt="Zelda II Redux title screen, with a sword on a moonlit cliff"></div>
+      <div class="hero-picker" id="game-file">
+        <p>Choose your unpatched Revision G ROM to get started. The builder patches it on your device and downloads a new .sfc file.</p>
+        <label class="drop" id="drop">
+          <input id="file" type="file" accept=".sfc,.smc" aria-label="Choose your unpatched Zelda II SNES ROM">
+          <span class="file-label"><b>Unpatched SNES ROM</b><small>Drop an .sfc or .smc file here</small></span>
+          <span class="choose">Choose file</span>
+        </label>
+        <div class="file-status" id="fileStatus" aria-live="polite">No file selected</div>
+        <details class="rom-details"><summary>Which ROM works?</summary>
+          <p>Use Infidelity’s Zelda II SNES port, Revision G. The internal title is <strong>ZELDA_II_SNES_REV-G!!</strong>. The ROM contains 4,194,304 bytes of game data with CRC32 <code>E7339DA0</code>. A 512-byte copier header is also supported.</p>
+        </details>
+      </div>
+    </section>
     <section class="credits" aria-labelledby="credits-title">
       <h2 id="credits-title">Special thanks</h2>
       <div class="credit-pair">
@@ -28,20 +48,6 @@
         </div>
       </div>
     </section>
-    <section class="hero" id="game-file" aria-labelledby="page-title">
-      <div class="title-frame"><img src="assets/redux-title.png" width="256" height="224" alt="Zelda II Redux title screen, with a sword on a moonlit cliff"></div>
-      <div class="hero-copy"><div class="eyebrow">The Adventure of Link · SNES</div>
-        <h1 id="page-title">Redux Patch Builder</h1>
-        <p>Choose your unpatched Revision G ROM to build your own version of Zelda II. Your game file stays on your device.</p>
-        <label class="drop" id="drop">
-            <input id="file" type="file" accept=".sfc,.smc" aria-label="Choose your unpatched Zelda II SNES ROM">
-            <span class="file-label"><b>Unpatched SNES ROM</b><small>Drop an .sfc or .smc file here</small></span>
-            <span class="choose">Choose file</span>
-          </label>
-          <div class="file-status" id="fileStatus" aria-live="polite">No file selected</div>
-          <details class="rom-details"><summary>Which ROM works?</summary>
-            <p>Use Infidelity’s Zelda II SNES port, Revision G. The internal title is <strong>ZELDA_II_SNES_REV-G!!</strong>. The ROM contains 4,194,304 bytes of game data with CRC32 <code>E7339DA0</code>. A 512-byte copier header is also supported.</p>
-          </details></div></section>
     <div class="layout"><section class="panel options" id="options" aria-labelledby="options-title">
           <div class="step"><div>
             <h2 id="options-title">Gameplay &amp; options</h2>
