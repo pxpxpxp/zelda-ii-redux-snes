@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#0d0b15">
   <title>Zelda II Redux · Patch Builder</title>
-  <link rel="stylesheet" href="style.css?v=option-compat-1">
+  <link rel="stylesheet" href="style.css?v=option-compat-2">
 </head>
 <body>
   <header class="mast">
@@ -51,7 +51,7 @@
     <div class="layout"><section class="panel options" id="options" aria-labelledby="options-title">
           <div class="step"><div>
             <h2 id="options-title">Gameplay &amp; options</h2>
-            <p>Start with a preset or choose individual options. Grayed-out options can’t be added to your current selection; each one explains why.</p>
+            <p>Gray means an option conflicts with one you picked. Gold means you can select it, but your combination needs a tested build before you can download.</p>
           </div></div>
           <div class="preset">
             <label for="preset">Preset</label>
@@ -74,7 +74,8 @@
         </section><aside><section class="panel summary" id="download" aria-labelledby="download-title">
           <div class="step"><div><h2 id="download-title">Your build</h2></div></div>
           <div id="selection"></div>
-          <blockquote id="trainerQuote" hidden><span>Sword trainers</span>“It looks like you’ve already learned these techniques.”</blockquote><p class="notice" id="variantStatus" aria-live="polite">Choose your unpatched Zelda II SNES ROM to continue.</p>
+          <blockquote id="trainerQuote" hidden><span>Sword trainers</span>“It looks like you’ve already learned these techniques.”</blockquote><p class="notice" id="variantStatus" aria-live="polite" tabindex="-1">Choose your unpatched Zelda II SNES ROM to continue.</p>
+          <div id="testedCompletion" hidden></div>
           <button id="build" type="button" class="build" disabled>Download Suggested Redux .sfc</button>
           <div class="file-status" id="buildStatus" aria-live="polite"></div>
           <p class="aside-footer">Downloads a new .sfc for your emulator or MiSTer. Custom builds have been checked in software. Hardware testing is pending.</p>
@@ -83,6 +84,6 @@
   <script src="catalog.js"></script>
   <script src="suggested.js"></script>
   <script src="patcher.js"></script>
-  <script src="app.js?v=option-compat-1"></script>
+  <script src="app.js?v=option-compat-2"></script>
 </body>
 </html>

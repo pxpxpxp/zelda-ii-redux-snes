@@ -40,7 +40,8 @@ const unavailable=[
  [33,'Progression','Old magic-container save repair','A separate repair for older save files affected by the magic-container bug.'],
  [34,'Gameplay','Secret','An optional room change from the NES version. Its behavior on SNES is unverified.']
 ];
-const groups=[[3,25],[12,13,22],[17,28,30],[8,10,31],[7,10,31]];
+// Independently audited by comparing verified single-patch writes and gameplay intent.
+const groups=[[3,25],[12,13,22],[17,28,30],[8,28],[10,31]];
 const key=ids=>[...ids].map(Number).sort((a,b)=>a-b).join(',');
 const bySelection=new Map(CATALOG.variants.map(v=>[key(v.ids),v]));
 const $=id=>document.getElementById(id);
@@ -56,17 +57,39 @@ function variantFor(ids) {
  return bySelection.get(variantKey) || SUGGESTED_COMBINATIONS[variantKey];
 }
 function current(){return variantFor(selected)}
-// The tested catalog, including composed presets, is the source of truth.
+const testedSelections=[
+ ...CATALOG.variants.map(v=>v.ids),
+ ...Object.keys(SUGGESTED_COMBINATIONS).map(k=>k.split(',').map(Number))
+];
 function blockedIn(id, ids){
+ if(ids.has(id)) return '';
+ const clashes=[...ids].filter(other=>groups.some(group=>group.includes(id)&&group.includes(other)));
+ return clashes.length ? 'Conflicts with '+clashes.map(other=>info[other][1]).join(' and ')+'.' : '';
+}
+function testedAddition(id, ids){
  if(ids.has(id)) return '';
  const next=new Set(ids);next.add(id);
  if(variantFor(next)!==undefined) return '';
- const clashes=[...ids].filter(other=>groups.some(group=>group.includes(id)&&group.includes(other)));
- if(clashes.length) return 'Blocked by '+clashes.map(other=>info[other][1]).join(' and ')+'.';
- const removable=[...ids].filter(other=>other!==STARTING_THRUSTS_ID&&
-  variantFor(new Set([...next].filter(item=>item!==other)))!==undefined);
- if(removable.length) return 'Remove '+removable.map(other=>info[other][1]).join(' or ')+' to select this.';
- return 'Not available with this selection. Remove options or choose another preset.';
+ const pending=[...next].filter(v=>v!==STARTING_THRUSTS_ID);
+ return testedSelections.some(build=>pending.every(v=>build.includes(v)))
+  ? 'Works in a larger tested set; add the other settings or choose a preset.'
+  : 'No tested download with your current choices.';
+}
+function markUntested(row,body,reason){
+ if(!reason) return;
+ const note=document.createElement('small');note.className='untested-note';note.textContent=reason;body.append(note);
+}
+function renderTestedCompletion(){
+ const help=$('testedCompletion');help.replaceChildren();help.hidden=true;
+ if(current()!==undefined || conflicts()) return;
+ const ids=[...selected].filter(v=>v!==STARTING_THRUSTS_ID);
+ const build=testedSelections.filter(v=>ids.every(id=>v.includes(id))).sort((x,y)=>x.length-y.length)[0];
+ if(!build) return;
+ const additions=build.filter(id=>!selected.has(id));
+ const note=document.createElement('p');note.textContent='A tested build also needs: '+additions.map(id=>info[id][1]).join(', ')+'.';
+ const button=document.createElement('button');button.type='button';button.textContent='Add these settings';button.className='reset-suggested';
+ button.addEventListener('click',()=>{for(const id of additions)selected.add(id);$('preset').value='';refresh();$('variantStatus').focus({preventScroll:true})});
+ help.append(note,button);help.hidden=false;
 }
 function markBlocked(row,input,body,id,reason){
  if(!reason) return;
@@ -92,7 +115,9 @@ function refreshSuggested(){
    row.className='redux-switch';box.type='checkbox';box.setAttribute('role','switch');box.checked=!alternate;box.dataset.core=String(id);
    title.textContent=name;desc.textContent=box.checked?'On by default.':alternate===reverse?revertLabels[id]:'Replaced by '+info[alternate][1]+'.';
    body.append(title,desc);
-   markBlocked(row,box,body,'core-'+id,box.checked?blockedIn(reverse,selected).replace('to select this','to turn this off'):'');
+   const block=box.checked?blockedIn(reverse,selected):'';
+   markBlocked(row,box,body,'core-'+id,block);
+   if(box.checked&&!block) markUntested(row,body,testedAddition(reverse,selected));
    box.addEventListener('change',()=>{if(box.checked){for(const other of opposites)selected.delete(other)}else{if(blockedIn(reverse,selected)){refresh();return}selected.add(reverse)}$('preset').value=selected.size?'':'suggested';refresh();$('suggested-switches').querySelector('[data-core="'+id+'"]')?.focus({preventScroll:true})});
    row.append(box,body);active.append(row);
   } else {
@@ -126,7 +151,9 @@ function refresh(){
   input.addEventListener('change',()=>{if(input.checked){if(blockedIn(+id,selected)){refresh();return}selected.add(+id)}else selected.delete(+id);$('preset').value=selected.size?'':'suggested';refresh();$('cards').querySelector('input[value="'+id+'"]')?.focus({preventScroll:true})});
   const copy=document.createElement('span'), title=document.createElement('strong'), desc=document.createElement('small');
   title.textContent=name;desc.textContent=help;copy.append(title,desc);
-  markBlocked(label,input,copy,'option-'+id,blockedIn(+id,selected));
+  const block=blockedIn(+id,selected);
+  markBlocked(label,input,copy,'option-'+id,block);
+  if(!block) markUntested(label,copy,testedAddition(+id,selected));
   label.append(input,copy);$('cards').append(label);
  }
  const secondary=$('unavailable');
@@ -142,8 +169,11 @@ function refresh(){
  if(!selected.size){const p=document.createElement('p');p.className='empty';p.textContent='Suggested Redux preset';$('selection').append(p)}
  else {const list=document.createElement('ul');for(const id of selected){const li=document.createElement('li'), name=document.createElement('span'), del=document.createElement('button');name.textContent=info[id][1];del.type='button';del.textContent='×';del.setAttribute('aria-label','Remove '+info[id][1]);del.addEventListener('click',()=>{selected.delete(id);$('preset').value=selected.size?'':'suggested';refresh();$('preset').focus({preventScroll:true})});li.append(name,del);list.append(li)}$('selection').append(list)}
  const variant=current();
+ renderTestedCompletion();
  if (variant === undefined) {
-  $('variantStatus').textContent = conflicts() || 'The remaining selections aren’t a supported build. Remove another option, restore the last one you removed, or choose a preset.';
+  $('variantStatus').textContent = conflicts() || ($('testedCompletion').hidden
+   ? 'There’s no tested download for this combination. Remove an option or choose a preset.'
+   : 'This selection can be completed as a tested build.');
  } else if (!reduxBase) {
   $('variantStatus').textContent = 'Choose your unpatched Zelda II SNES ROM to continue.';
  } else {
